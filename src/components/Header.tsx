@@ -3,8 +3,7 @@ import { GlobalStateType } from '../types';
 
 function Header() {
   const email = useSelector((globalState: GlobalStateType) => globalState.user.email);
-  const total = useSelector((globalState:
-  GlobalStateType) => globalState.wallet.total);
+  const total = useSelector((globalState: GlobalStateType) => globalState.wallet.total);
 
   return (
     <header>

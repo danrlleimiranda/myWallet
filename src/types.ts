@@ -29,7 +29,23 @@ export type ExpensesType = {
   method: string;
   tag: string;
   description: string;
-  exchangeRates: object;
+  exchangeRates:{
+    [key: string]: ExchangeRatesType; // Permite indexar com qualquer string
+  };
+};
+
+export type ExchangeRatesType = {
+  code: string,
+  codein: string,
+  name: string,
+  high: string,
+  low: string,
+  varBid: string,
+  pctChange: string,
+  bid: string,
+  ask: string,
+  timestamp: string,
+  create_date: string
 };
 
 export type Dispatch = ThunkDispatch<GlobalStateType, null, AnyAction>;
