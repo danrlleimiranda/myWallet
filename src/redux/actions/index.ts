@@ -1,10 +1,12 @@
 import { Dispatch } from 'redux';
 import fetchData from '../../services/fetchAPI';
+import { ExpensesType } from '../../types';
 
 export const LOGGED_USER = 'LOGGED_USER';
 export const FETCH_STARTED = 'FETCH_STARTED';
 export const FETCH_SUCCESS = 'FETCH_SUCCESS';
 export const FETCH_ERROR = 'FETCH_ERROR';
+export const DELETE_EXPENSE = 'DELETE_EXPENSE';
 
 export const userAction = (payload: string) => ({
   type: LOGGED_USER,
@@ -24,6 +26,12 @@ export const fetchSuccess = (payload: any, formData: any) => ({
 const fetchError = (payload: any) => ({
   type: FETCH_ERROR,
   payload,
+});
+
+export const deleteExpense = (payload: ExpensesType[], id: number) => ({
+  type: DELETE_EXPENSE,
+  payload,
+  id,
 });
 
 export const fetchAPI = (formData:any) => {

@@ -10,7 +10,7 @@ export type GlobalStateType = {
     expenses: ExpensesType[], // array de objetos, com cada objeto tendo as chaves id, value, currency, method, tag, description e exchangeRates
     editor: boolean,
     idToEdit: number
-    total: number
+    allExpenses: number
   }
 };
 
@@ -19,7 +19,7 @@ export type InitialStateWalletType = {
   expenses: ExpensesType[], // array de objetos, com cada objeto tendo as chaves id, value, currency, method, tag, description e exchangeRates
   editor: boolean,
   idToEdit: number
-  total: number
+  allExpenses: number
 };
 
 export type ExpensesType = {
