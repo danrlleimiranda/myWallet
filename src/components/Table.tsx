@@ -40,7 +40,7 @@ function Table() {
               </td>
               <td>Real</td>
               <td>
-                <button>Editar</button>
+                <button data-testid="edit-btn">Editar</button>
                 {' '}
                 <button
                   onClick={ () => dispatch(deleteExpense(expenses, id)) }

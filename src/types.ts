@@ -6,12 +6,12 @@ export type GlobalStateType = {
     email: string
   },
   wallet: {
-    currencies: string[],
-    expenses: ExpensesType[], // array de objetos, com cada objeto tendo as chaves id, value, currency, method, tag, description e exchangeRates
-    editor: boolean,
-    idToEdit: number
-    allExpenses: number
-  }
+    currencies: string[];
+    expenses: ExpensesType[];
+    editor: boolean;
+    idToEdit: number;
+    allExpenses: number;
+  };
 };
 
 export type InitialStateWalletType = {

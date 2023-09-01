@@ -1,6 +1,6 @@
 import { Dispatch } from 'redux';
 import fetchData from '../../services/fetchAPI';
-import { ExpensesType } from '../../types';
+import { ExchangeRatesType, ExpensesType } from '../../types';
 
 export const LOGGED_USER = 'LOGGED_USER';
 export const FETCH_STARTED = 'FETCH_STARTED';
@@ -17,7 +17,19 @@ const fetchStarted = {
   type: FETCH_STARTED,
 };
 
-export const fetchSuccess = (payload: any, formData: any) => ({
+type PayloadType = {
+  [key: string]: ExchangeRatesType
+};
+
+type FormDataType = {
+  value: string;
+  currency: string;
+  method: string;
+  tag: string;
+  description: string;
+};
+
+export const fetchSuccess = (payload: PayloadType, formData: FormDataType) => ({
   type: FETCH_SUCCESS,
   payload,
   formData,
