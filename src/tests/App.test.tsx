@@ -1,5 +1,5 @@
 import { vi } from 'vitest';
-import { screen } from '@testing-library/dom';
+import { fireEvent, screen } from '@testing-library/dom';
 import userEvent from '@testing-library/user-event';
 
 import { act } from '@testing-library/react';
@@ -311,5 +311,23 @@ describe('testa todas as funcionalidades da aplicação', () => {
 
     expect(screen.queryByRole('cell', { name: /hotwheels/i })).not.toBeInTheDocument();
     expect(fetch).toHaveBeenCalledTimes(1);
+    const currencySelect: HTMLSelectElement = screen.getByTestId('currency-input');
+    fireEvent.change(currencySelect, { target: { value: 'EUR' } });
+    expect(currencySelect.value).toBe('EUR');
+
+    const methodSelect: HTMLSelectElement = screen.getByRole('combobox', {
+      name: /metodo de pagamento:/i,
+    });
+    fireEvent.change(methodSelect, { target: { value: 'Cartão de crédito' } });
+
+    expect(methodSelect.value).toBe('Cartão de crédito');
+
+    const tagSelect:HTMLSelectElement = screen.getByRole('combobox', {
+      name: /tag/i,
+    });
+
+    fireEvent.change(tagSelect, { target: { value: 'Transporte' } });
+
+    expect(tagSelect.value).toBe('Transporte');
   });
 });
