@@ -1,6 +1,6 @@
 import { useDispatch, useSelector } from 'react-redux';
 import { GlobalStateType } from '../types';
-import { deleteExpense } from '../redux/actions';
+import { deleteExpense, editingExpense } from '../redux/actions';
 
 function Table() {
   const expenses = useSelector((globalState:
@@ -24,7 +24,7 @@ function Table() {
         </tr>
       </thead>
       <tbody>
-        {expenses.map(({ id, description, tag, method,
+        {expenses.length > 0 && expenses.map(({ id, description, tag, method,
           value, currency, exchangeRates }) => (
             <tr key={ id }>
               <td>{description}</td>
@@ -40,7 +40,13 @@ function Table() {
               </td>
               <td>Real</td>
               <td>
-                <button data-testid="edit-btn">Editar</button>
+                <button
+                  data-testid="edit-btn"
+                  onClick={ () => dispatch(editingExpense(id)) }
+                >
+                  Editar
+
+                </button>
                 {' '}
                 <button
                   onClick={ () => dispatch(deleteExpense(expenses, id)) }

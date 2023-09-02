@@ -2,7 +2,8 @@
 
 import { AnyAction } from 'redux';
 import fetchData from '../../services/fetchAPI';
-import { DELETE_EXPENSE, FETCH_SUCCESS } from '../actions';
+import { DELETE_EXPENSE, EDITING_EXPENSE, EDITION_CONCLUDED,
+  FETCH_SUCCESS } from '../actions';
 import { ExpensesType, InitialStateWalletType } from '../../types';
 
 const data = await fetchData();
@@ -18,7 +19,6 @@ const INITIAL_STATE: InitialStateWalletType = {
 };
 
 const wallet = (state = INITIAL_STATE, { type, payload, formData, id }: AnyAction) => {
-  let updatedExpenses: ExpensesType[] = [];
   switch (type) {
     case FETCH_SUCCESS:
       return { ...state,
@@ -26,24 +26,44 @@ const wallet = (state = INITIAL_STATE, { type, payload, formData, id }: AnyActio
           { id: state.expenses.length,
             ...formData,
             exchangeRates: payload,
-          },
-        ],
+          }],
         allExpenses: (Number(state.allExpenses)
         + Number((Number(payload[formData.currency].ask)
             * Number(formData.value)))).toFixed(2),
       };
-
     case DELETE_EXPENSE: {
-      updatedExpenses = payload
+      const updatedExpenses = payload
         .filter((expense: ExpensesType) => expense.id !== id);
       const total = updatedExpenses.length > 0 ? updatedExpenses
-        .map((expense) => Number(expense.value)
+        .map((expense: ExpensesType) => Number(expense.value)
     * Number(expense.exchangeRates[expense.currency].ask))
-        .reduce((acc, curr) => acc + curr) : 0;
-
+        .reduce((acc: number, curr: number) => acc + curr) : 0;
       return { ...state,
         expenses: updatedExpenses,
         allExpenses: Number(total).toFixed(2),
+      };
+    }
+    case EDITING_EXPENSE:
+      return {
+        ...state,
+        idToEdit: payload,
+        editor: true,
+      };
+    case EDITION_CONCLUDED: {
+      const { expenses } = state;
+      const notEditedExpense = expenses.length > 0 ? expenses
+        .filter((expense) => expense.id !== state.idToEdit) : expenses;
+      return { ...state,
+        editor: false,
+        expenses: [...notEditedExpense,
+          { id: state.idToEdit, ...formData, exchangeRates: payload }]
+          .sort((a, b) => a.id - b.id),
+        allExpenses: [...notEditedExpense,
+          { id: state.idToEdit, ...formData, exchangeRates: payload }]
+          .sort((a, b) => a.id - b.id)
+          .map((expense) => Number(expense.value)
+    * Number(expense.exchangeRates[expense.currency].ask))
+          .reduce((acc, curr) => acc + curr).toFixed(2),
       };
     }
     default:

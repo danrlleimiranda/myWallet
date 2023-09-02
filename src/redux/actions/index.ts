@@ -1,12 +1,14 @@
 import { Dispatch } from 'redux';
 import fetchData from '../../services/fetchAPI';
-import { ExchangeRatesType, ExpensesType } from '../../types';
+import { ExchangeRatesType, ExpensesType, GlobalStateType } from '../../types';
 
 export const LOGGED_USER = 'LOGGED_USER';
 export const FETCH_STARTED = 'FETCH_STARTED';
 export const FETCH_SUCCESS = 'FETCH_SUCCESS';
 export const FETCH_ERROR = 'FETCH_ERROR';
 export const DELETE_EXPENSE = 'DELETE_EXPENSE';
+export const EDITING_EXPENSE = 'EDITING_EXPENSE';
+export const EDITION_CONCLUDED = 'EDITION_CONCLUDED';
 
 export const userAction = (payload: string) => ({
   type: LOGGED_USER,
@@ -46,13 +48,29 @@ export const deleteExpense = (payload: ExpensesType[], id: number) => ({
   id,
 });
 
-export const fetchAPI = (formData:any) => {
-  return async (dispatch: Dispatch) => {
+export const editingExpense = (payload: number) => ({
+  type: EDITING_EXPENSE,
+  payload,
+});
+
+export const editionConcluded = (payload: PayloadType, formData: FormDataType) => ({
+  type: EDITION_CONCLUDED,
+  payload,
+  formData,
+});
+type GetState = () => GlobalStateType;
+
+export const fetchAPI = (formData: FormDataType) => {
+  return async (dispatch: Dispatch, getStore: GetState) => {
     try {
       dispatch(fetchStarted);
       const data = await fetchData();
       delete data.USDT;
-      dispatch(fetchSuccess(data, formData));
+      if (getStore().wallet.editor) {
+        dispatch(editionConcluded(data, formData));
+      } else {
+        dispatch(fetchSuccess(data, formData));
+      }
     } catch (error) {
       dispatch(fetchError(error));
     }

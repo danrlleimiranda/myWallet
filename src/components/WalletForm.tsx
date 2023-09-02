@@ -13,6 +13,8 @@ function WalletForm() {
 
   };
   const [form, setForm] = useState(initialState);
+  const isEditing = useSelector((globalState:
+  GlobalStateType) => globalState.wallet.editor);
 
   const dispatch: Dispatch = useDispatch();
 
@@ -109,13 +111,26 @@ function WalletForm() {
 
       </label>
 
-      <button
-        type="submit"
-        onClick={ (event) => handleClick(event) }
-      >
-        Adicionar despesa
+      {
+      !isEditing
+        ? (
+          <button
+            type="submit"
+            onClick={ (event) => handleClick(event) }
+          >
+            Adicionar despesa
 
-      </button>
+          </button>)
+        : (
+          <button
+            type="submit"
+            onClick={ (event) => handleClick(event) }
+            data-testid="edit-btn"
+          >
+            Editar despesa
+
+          </button>)
+}
     </form>
   );
 }
