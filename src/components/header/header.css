@@ -1,0 +1,40 @@
+header {
+  align-items: center;
+  display: flex;
+  justify-content: space-around;
+  margin-bottom: 30px;
+  padding: 20px;
+}
+
+.email {
+  align-items: center;
+  border-radius: 5px;
+  color: #2fc18c;
+  display: flex;
+  font-weight: 700;
+  justify-content: center;
+  padding: 10px;
+  text-align: center;
+  width: fit-content;
+}
+
+.expenses {
+  color: #003be5;
+  display: flex;
+  width: 300px;
+}
+
+.email img {
+  margin-right: 5px;
+  width: 30px;
+}
+
+table {
+  margin: 50px auto;
+  width: 80%;
+}
+
+.span-expense {
+  font-weight: 700;
+  margin-left: 6px;
+}

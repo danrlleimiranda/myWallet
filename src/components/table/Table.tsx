@@ -1,6 +1,9 @@
 import { useDispatch, useSelector } from 'react-redux';
-import { GlobalStateType } from '../types';
-import { deleteExpense, editingExpense } from '../redux/actions';
+import { GlobalStateType } from '../../types';
+import { deleteExpense, editingExpense } from '../../redux/actions';
+import eraseButton from '../../../imgs/apagar.svg';
+import editButton from '../../../imgs/Editar.svg';
+import './table.css';
 
 function Table() {
   const expenses = useSelector((globalState:
@@ -13,7 +16,7 @@ function Table() {
       <thead>
         <tr>
           <th>Descrição</th>
-          <th>Tag</th>
+          <th>Categoria da despesa</th>
           <th>Método de pagamento</th>
           <th>Valor</th>
           <th>Moeda</th>
@@ -44,7 +47,7 @@ function Table() {
                   data-testid="edit-btn"
                   onClick={ () => dispatch(editingExpense(id)) }
                 >
-                  Editar
+                  <img src={ editButton } alt="" />
 
                 </button>
                 {' '}
@@ -52,7 +55,7 @@ function Table() {
                   onClick={ () => dispatch(deleteExpense(expenses, id)) }
                   data-testid="delete-btn"
                 >
-                  Excluir
+                  <img src={ eraseButton } alt="" />
 
                 </button>
               </td>

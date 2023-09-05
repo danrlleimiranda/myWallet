@@ -1,0 +1,21 @@
+.wallet-container {
+  background-color: white;
+  border-radius: 1px 1px 10px 10px;
+  box-shadow: 1px 1px 5px 0 black;
+  margin: auto;
+  width: 80%;
+}
+
+.table {
+  align-items: flex-end;
+  background-color: #003be5;
+  border-radius: 10px;
+  display: flex;
+  height: fit-content;
+  justify-content: center;
+  left: 5%;
+  position: absolute;
+  top: 140px;
+  width: 90%;
+  z-index: -1;
+}

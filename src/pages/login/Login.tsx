@@ -1,7 +1,9 @@
 import { useState } from 'react';
 import { useDispatch } from 'react-redux';
 import { useNavigate } from 'react-router-dom';
-import { userAction } from '../redux/actions';
+import { userAction } from '../../redux/actions';
+import trybeWallet from '../../../imgs/logoTrybeWallet.png';
+import './login.css';
 
 function Login() {
   const initialState = {
@@ -32,13 +34,17 @@ function Login() {
   };
 
   return (
-    <form action="">
+    <form action="" className="form-login">
+      <img src={ trybeWallet } alt="" />
+      <br />
       <label htmlFor="email">
         Login:
+        <br />
         <input
           type="email"
           name="email"
           id="email"
+          placeholder="Digite o seu login"
           value={ form.email }
           data-testid="email-input"
           onChange={ (event) => handleChange(event) }
@@ -46,10 +52,12 @@ function Login() {
       </label>
       <label htmlFor="password">
         Senha:
+        <br />
         <input
           type="password"
           name="senha"
           id="password"
+          placeholder="Digite a sua senha"
           value={ form.senha }
           data-testid="password-input"
           onChange={ (event) => handleChange(event) }
