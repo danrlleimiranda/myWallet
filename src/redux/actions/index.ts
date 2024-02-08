@@ -1,5 +1,5 @@
 import { Dispatch } from 'redux';
-import fetchData from '../../services/fetchAPI';
+import fetchData from '../../utils/fetchAPI';
 import { ExchangeRatesType, ExpensesType, GlobalStateType } from '../../types';
 
 export const LOGGED_USER = 'LOGGED_USER';
@@ -9,6 +9,7 @@ export const FETCH_ERROR = 'FETCH_ERROR';
 export const DELETE_EXPENSE = 'DELETE_EXPENSE';
 export const EDITING_EXPENSE = 'EDITING_EXPENSE';
 export const EDITION_CONCLUDED = 'EDITION_CONCLUDED';
+export const UPDATE_CURRENCIES = 'UPDATE_CURRENCIES';
 
 export const userAction = (payload: string) => ({
   type: LOGGED_USER,
@@ -37,6 +38,11 @@ export const fetchSuccess = (payload: PayloadType, formData: FormDataType) => ({
   formData,
 });
 
+export const updatedExpenses = (payload: string[]) => ({
+  type: UPDATE_CURRENCIES,
+  payload,
+});
+
 const fetchError = (payload: any) => ({
   type: FETCH_ERROR,
   payload,
@@ -60,15 +66,21 @@ export const editionConcluded = (payload: PayloadType, formData: FormDataType) =
 });
 type GetState = () => GlobalStateType;
 
-export const fetchAPI = (formData: FormDataType) => {
+export const fetchAPI = (formData?: FormDataType) => {
   return async (dispatch: Dispatch, getStore: GetState) => {
     try {
       dispatch(fetchStarted);
       const data = await fetchData();
       delete data.USDT;
-      if (getStore().wallet.editor) {
+      if (!formData) {
+        dispatch(updatedExpenses(Object.keys(data)));
+        return;
+      }
+      if (formData && getStore().wallet.editor) {
         dispatch(editionConcluded(data, formData));
-      } else {
+        return;
+      }
+      if (formData && !getStore().wallet.editor) {
         dispatch(fetchSuccess(data, formData));
       }
     } catch (error) {

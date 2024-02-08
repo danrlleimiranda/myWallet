@@ -1,17 +1,17 @@
 // Esse reducer será responsável por tratar o todas as informações relacionadas as despesas
 
 import { AnyAction } from 'redux';
-import fetchData from '../../services/fetchAPI';
 import { DELETE_EXPENSE, EDITING_EXPENSE, EDITION_CONCLUDED,
-  FETCH_SUCCESS } from '../actions';
+  FETCH_SUCCESS,
+  UPDATE_CURRENCIES } from '../actions';
 import { ExpensesType, InitialStateWalletType } from '../../types';
 
-const data = await fetchData();
-delete data.USDT;
-const currencies = Object.keys(data);
+// const data = await fetchData();
+// delete data.USDT;
+// const currencies = Object.keys(data);
 
 const INITIAL_STATE: InitialStateWalletType = {
-  currencies, // array de string
+  currencies: [], // array de string
   expenses: [], // array de objetos, com cada objeto tendo as chaves id, value, currency, method, tag, description e exchangeRates
   editor: false, // valor booleano que indica se uma despesa está sendo editada
   idToEdit: 0, // valor numérico que armazena o id da despesa que está sendo editada
@@ -31,17 +31,17 @@ const wallet = (state = INITIAL_STATE, { type, payload, formData, id }: AnyActio
         + Number((Number(payload[formData.currency].ask)
             * Number(formData.value)))).toFixed(2),
       };
+    case UPDATE_CURRENCIES: return { ...state, currencies: payload };
     case DELETE_EXPENSE: {
-      const updatedExpenses = payload
-        .filter((expense: ExpensesType) => expense.id !== id);
+      const updatedExpenses = payload.length !== 0 ? payload
+        .filter((expense: ExpensesType) => expense.id !== id) : [];
       const total = updatedExpenses.length > 0 ? updatedExpenses
         .map((expense: ExpensesType) => Number(expense.value)
     * Number(expense.exchangeRates[expense.currency].ask))
         .reduce((acc: number, curr: number) => acc + curr) : 0;
       return { ...state,
         expenses: updatedExpenses,
-        allExpenses: Number(total).toFixed(2),
-      };
+        allExpenses: Number(total).toFixed(2) };
     }
     case EDITING_EXPENSE:
       return {

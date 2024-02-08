@@ -1,4 +1,4 @@
-import { useState } from 'react';
+import { useEffect, useState } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import { Dispatch, GlobalStateType } from '../../types';
 import { fetchAPI } from '../../redux/actions';
@@ -14,10 +14,17 @@ function WalletForm() {
 
   };
   const [form, setForm] = useState(initialState);
+  const dispatch: Dispatch = useDispatch();
+
+  useEffect(() => {
+    const fetchApi = async () => {
+      dispatch(fetchAPI());
+    };
+    fetchApi();
+  }, []);
+
   const isEditing = useSelector((globalState:
   GlobalStateType) => globalState.wallet.editor);
-
-  const dispatch: Dispatch = useDispatch();
 
   const handleChange = (event: React.ChangeEvent<HTMLInputElement>
   | React.ChangeEvent<HTMLSelectElement>) => {
@@ -105,7 +112,7 @@ function WalletForm() {
             id="currency"
             onChange={ (event) => handleChange(event) }
           >
-            {currencies.map((currency) => (
+            {currencies && currencies.map((currency) => (
               <option key={ currency } value={ currency }>
                 {currency}
               </option>

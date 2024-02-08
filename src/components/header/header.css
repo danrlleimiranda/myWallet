@@ -19,9 +19,11 @@ header {
 }
 
 .expenses {
+  align-items: center;
   color: #003be5;
   display: flex;
-  width: 300px;
+  justify-content: space-evenly;
+  width: 15rem;
 }
 
 .email img {

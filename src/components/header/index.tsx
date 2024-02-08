@@ -15,12 +15,12 @@ function Header() {
       <img src={ trybeWallet } alt="" />
       <div className="expenses">
         <img src={ coinIcon } alt="" />
+
+        <span>Total de despesas:</span>
         <p data-testid="total-field">
-          <span className="span-expense">Total de despesas:</span>
-          {' '}
-          {' '}
-          {`${total}`}
+          {total}
         </p>
+
         <p data-testid="header-currency-field">BRL</p>
       </div>
       <div className="email">
